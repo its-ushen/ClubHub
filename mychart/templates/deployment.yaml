@@ -19,3 +19,10 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.service.port }}
+        volumeMounts:
+        - name: sqlite-storage
+          mountPath: /var/lib/sqlite
+      volumes:
+      - name: sqlite-storage
+        persistentVolumeClaim:
+          claimName: sqlite-pvc

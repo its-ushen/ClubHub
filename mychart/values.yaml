@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 3
+replicaCount: 1 # set to one as we are using a signle sqlite database stored on a PV, multiple replicas mean that each replica has own database
 
 image:
   repository: 681289863308.dkr.ecr.us-east-1.amazonaws.com/clubhub
