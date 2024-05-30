@@ -6,11 +6,11 @@ from flask import g
 
 
 ROOT_DIR: Path = Path(__file__).parents[4]
-DB_DIR: Path = ROOT_DIR / "app" / "application" / "database"
-
+DB_DIR: Path = Path("/") / "var" / "lib" / "sqlite"
+SQL_SCRIPTS_DIR : Path = ROOT_DIR / "app" / "application" / "database"
 DB_PATH: Path = DB_DIR / "database.db"
-SCHEMA_PATH: Path = DB_DIR / "schema.sql"
-POPULATE_PATH: Path = DB_DIR / "populate.sql"
+SCHEMA_PATH: Path = SQL_SCRIPTS_DIR / "schema.sql"
+POPULATE_PATH: Path = SQL_SCRIPTS_DIR / "populate.sql"
 
 DDL_BACKUP_PATH: Path = ROOT_DIR / "ddl_backup.sql"
 
