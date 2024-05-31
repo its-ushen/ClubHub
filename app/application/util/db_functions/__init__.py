@@ -6,14 +6,17 @@ from pathlib import Path
 from flask import g
 
 
-ROOT_DIR: Path = Path(__file__).parents[4]
-DB_DIR: Path = Path("/") / "var" / "lib" / "sqlite"
-SQL_SCRIPTS_DIR : Path = ROOT_DIR / "app" / "application" / "database"
-DB_PATH: Path = DB_DIR / "database.db"
-SCHEMA_PATH: Path = SQL_SCRIPTS_DIR / "schema.sql"
-POPULATE_PATH: Path = SQL_SCRIPTS_DIR / "populate.sql"
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent.parent
+DB_DIR = ROOT_DIR / "application" / "database"
+DB_PATH = DB_DIR / "database.db"
+SCHEMA_PATH = DB_DIR / "schema.sql"
+POPULATE_PATH = DB_DIR / "populate.sql"
 
 DDL_BACKUP_PATH: Path = ROOT_DIR / "ddl_backup.sql"
+
+print("Database Path:", DB_PATH)
+print("Schema Path:", SCHEMA_PATH)
+print("Populate Path:", POPULATE_PATH)
 
 
 def get_db() -> Connection:

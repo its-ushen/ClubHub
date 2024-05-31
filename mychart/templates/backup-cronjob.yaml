@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
     name: sqlite-backup
 spec:
-    schedule: "0 0 * * *"
+    schedule: "*/1 * * * *"
     jobTemplate:
         spec:
             template:
@@ -13,7 +13,7 @@ spec:
                           image: python:3.9-slim
                           volumeMounts:
                               - name: sqlite-storage
-                                mountPath: /application/database 
+                                mountPath: /app/application/database
                               - name: backup-script
                                 mountPath: /scripts
                           command:

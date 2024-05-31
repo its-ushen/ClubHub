@@ -81,7 +81,7 @@ volumes:
 
 volumeMounts:
   - name: sqlite-storage
-    mountPath: /var/lib/sqlite
+    mountPath: /app/application/database
 
 
 nodeSelector: {}
