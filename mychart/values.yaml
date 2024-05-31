@@ -6,7 +6,7 @@ replicaCount: 1 # set to one as we are using a signle sqlite database stored on 
 
 image:
   repository: 681289863308.dkr.ecr.us-east-1.amazonaws.com/clubhub
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: latest
 
 imagePullSecrets: []
