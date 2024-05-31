@@ -21,7 +21,7 @@ spec:
         - containerPort: {{ .Values.service.port }}
         volumeMounts:
         - name: sqlite-storage
-          mountPath: /var/lib/sqlite
+          mountPath: /application/database
       volumes:
       - name: sqlite-storage
         persistentVolumeClaim:

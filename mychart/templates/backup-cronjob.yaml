@@ -1,43 +1,55 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: sqlite-backup
+    name: sqlite-backup
 spec:
-  schedule: "0 0 * * *"  
-  jobTemplate:
-    spec:
-      template:
+    schedule: "0 0 * * *"
+    jobTemplate:
         spec:
-          containers:
-          - name: backup
-            image: python:3.9-slim
-            volumeMounts:
-            - name: sqlite-storage
-              mountPath: /var/lib/sqlite
-            - name: backup-script
-              mountPath: /scripts
-            command: ["sh", "-c", "pip install boto3 && python /scripts/backup_db_to_s3.py && python /scripts/upload_static_assets_to_s3.py"]
-            env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: aws-credentials
-                  key: aws-access-key-id
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: aws-credentials
-                  key: aws-secret-access-key
-            - name: AWS_SESSION_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: aws-credentials
-                  key: aws-session-token
-          restartPolicy: OnFailure
-          volumes:
-          - name: sqlite-storage
-            persistentVolumeClaim:
-              claimName: sqlite-pvc
-          - name: backup-script
-            configMap:
-              name: backup-script
+            template:
+                spec:
+                    containers:
+                        - name: backup
+                          image: python:3.9-slim
+                          volumeMounts:
+                              - name: sqlite-storage
+                                mountPath: /application/database
+                              - name: backup-script
+                                mountPath: /scripts
+                          command:
+                              [
+                                  "sh",
+                                  "-c",
+                                  "pip install boto3 && python /scripts/backup_db_to_s3.py && python /scripts/upload_static_assets_to_s3.py",
+                              ]
+                          env:
+                              - name: AWS_ACCESS_KEY_ID
+                                valueFrom:
+                                    secretKeyRef:
+                                        name: aws-credentials
+                                        key: aws-access-key-id
+                              - name: AWS_SECRET_ACCESS_KEY
+                                valueFrom:
+                                    secretKeyRef:
+                                        name: aws-credentials
+                                        key: aws-secret-access-key
+                              - name: AWS_SESSION_TOKEN
+                                valueFrom:
+                                    secretKeyRef:
+                                        name: aws-credentials
+                                        key: aws-session-token
+                          resources:
+                              requests:
+                                  memory: "64Mi"
+                                  cpu: "250m"
+                              limits:
+                                  memory: "128Mi"
+                                  cpu: "500m"
+                    restartPolicy: OnFailure
+                    volumes:
+                        - name: sqlite-storage
+                          persistentVolumeClaim:
+                              claimName: sqlite-pvc
+                        - name: backup-script
+                          configMap:
+                              name: backup-script

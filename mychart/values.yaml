@@ -2,98 +2,86 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1 # set to one as we are using a signle sqlite database stored on a PV, multiple replicas mean that each replica has own database
+replicaCount: 1 # Set to one as we are using a single SQLite database stored on a PV
 
 image:
-  repository: 681289863308.dkr.ecr.us-east-1.amazonaws.com/clubhub
-  pullPolicy: Always
-  tag: latest
+    repository: 681289863308.dkr.ecr.us-east-1.amazonaws.com/clubhub
+    pullPolicy: Always
+    tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
 
 podAnnotations: {}
 podLabels: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+    {}
+    # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
 
 service:
-  type: LoadBalancer
-  port: 80
-  targetPort: 5000
+    type: LoadBalancer
+    port: 80
+    targetPort: 5000
 
 ingress:
-  enabled: true
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  hosts:
-    - host: example.com
-      paths:
-        - path: /
-          pathType: Prefix
+    enabled: true
+    annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+        - host: example.com
+          paths:
+              - path: /
+                pathType: Prefix
 
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources:
+    limits:
+        cpu: 500m
+        memory: 256Mi
+    requests:
+        cpu: 250m
+        memory: 128Mi
 
 livenessProbe:
-  httpGet:
-    path: /
-    port: http
+    httpGet:
+        path: /
+        port: http
 readinessProbe:
-  httpGet:
-    path: /
-    port: http
+    httpGet:
+        path: /
+        port: http
 
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
 
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+volumes:
+    - name: sqlite-storage
+      persistentVolumeClaim:
+          claimName: sqlite-pvc
 
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+volumeMounts:
+    - name: sqlite-storage
+      mountPath: /application/database
 
 nodeSelector: {}
 
