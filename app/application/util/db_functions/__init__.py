@@ -11,13 +11,7 @@ DB_DIR = ROOT_DIR / "application" / "database"
 DB_PATH = DB_DIR / "database.db"
 SCHEMA_PATH = DB_DIR / "schema.sql"
 POPULATE_PATH = DB_DIR / "populate.sql"
-
 DDL_BACKUP_PATH: Path = ROOT_DIR / "ddl_backup.sql"
-
-print("Database Path:", DB_PATH)
-print("Schema Path:", SCHEMA_PATH)
-print("Populate Path:", POPULATE_PATH)
-
 
 def get_db() -> Connection:
     """
