@@ -13,7 +13,7 @@ spec:
                           image: python:3.9-slim
                           volumeMounts:
                               - name: sqlite-storage
-                                mountPath: /application/database
+                                mountPath: /application/database 
                               - name: backup-script
                                 mountPath: /scripts
                           command:
