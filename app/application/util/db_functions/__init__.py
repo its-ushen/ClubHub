@@ -1,4 +1,5 @@
 from sqlite3 import Connection, Cursor, Row, connect
+import sqlite3
 from typing import Optional
 from pathlib import Path
 
@@ -23,6 +24,8 @@ def get_db() -> Connection:
     db: Connection | None = getattr(g, "_database", None)
 
     if db is None:
+        Path(DB_PATH).touch(exist_ok=True)
+        # Make sure the db file exists
         db: Connection = connect(DB_PATH)
         db.row_factory = Row
         g._database = db
