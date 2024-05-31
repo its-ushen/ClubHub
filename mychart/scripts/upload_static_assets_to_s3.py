@@ -14,4 +14,5 @@ def upload_static_assets():
             print(f"Uploaded {file_path} to {s3_path}")
 
 if __name__ == "__main__":
+    print("Something is wrong")
     upload_static_assets()

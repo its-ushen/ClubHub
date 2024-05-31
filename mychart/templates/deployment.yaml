@@ -18,11 +18,14 @@ spec:
       - name: nginx
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+#         env:
+#           - name: INIT_DB
+#             value: "true"  # Automatically decide to populate the database without prompting
         ports:
         - containerPort: {{ .Values.service.port }}
         volumeMounts:
         - name: sqlite-storage
-          mountPath: /var/lib/sqlite
+          mountPath: /app/application/database
       volumes:
       - name: sqlite-storage
         persistentVolumeClaim:
