@@ -80,8 +80,9 @@ volumes:
           claimName: sqlite-pvc
 
 volumeMounts:
-    - name: sqlite-storage
-      mountPath: /application/database
+  - name: sqlite-storage
+    mountPath: /var/lib/sqlite
+
 
 nodeSelector: {}
 

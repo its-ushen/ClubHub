@@ -12,4 +12,10 @@ def backup_database():
     print(f"Database backup uploaded to {backup_path}")
 
 if __name__ == "__main__":
+    print("This is wrong")
+
+    
+    while True:
+        pass
+
     backup_database()

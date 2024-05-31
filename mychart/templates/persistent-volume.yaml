@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Recycle
   storageClassName: manual
   hostPath:
-    path: "/mnt/data/sqlite"
+    path: "/var/lib/sqlite" # Ensure this path exists on the host
